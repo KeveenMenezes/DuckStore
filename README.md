@@ -73,6 +73,10 @@ Utilize a extensão **C# Dev Kit** para iniciar o projeto:
    - Pressione `F5` e selecione o folder `C#`.
    - Escolha o projeto `C#: AppHost` para iniciar.
 
+## ❓ FAQ
+
+Para perguntas frequentes, incluindo questões sobre GitHub Copilot e contribuições, consulte o [FAQ](./docs/FAQ.md).
+
 ## 📧 Contato
 
 Para dúvidas ou sugestões, entre em contato pelo [Linkedin](https://www.linkedin.com/in/keveen-menezes-52592162/)
