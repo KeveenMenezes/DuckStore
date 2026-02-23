@@ -1,11 +1,9 @@
-﻿global using BuildingBlocks.UnitTests;
-global using Catalog.API.Exceptions;
+﻿global using Catalog.API.Exceptions;
 global using Catalog.API.Models;
-global using Catalog.API.Products.CreateProduct;
-global using Catalog.API.Products.DeleteProduct;
-global using Catalog.API.Products.GetProductByCategory;
-global using Catalog.API.Products.GetProductById;
-global using Catalog.API.Products.GetProducts;
-global using Catalog.API.Products.UpdateProduct;
+global using Catalog.API.Features.Products.DeleteProduct;
+global using Catalog.API.Features.Products.GetProductByCategory;
+global using Catalog.API.Features.Products.GetProductById;
+global using Catalog.API.Features.Products.GetProducts;
+global using Catalog.API.Features.Products.UpdateProduct;
 global using FluentValidation.TestHelper;
 global using Marten;
