@@ -307,7 +307,7 @@ Resources:
         # ── API behaviors → YARP API Gateway ──
         CacheBehaviors:
           # /catalog-service/*
-          - PathPattern: "catalog-service/*"
+          - PathPattern: "/catalog-service/*"
             TargetOriginId: ApiGatewayOrigin
             ViewerProtocolPolicy: redirect-to-https
             CachePolicyId: !Ref ApiCachePolicy
@@ -323,7 +323,7 @@ Resources:
             Compress: true
 
           # /ordering-service/*
-          - PathPattern: "ordering-service/*"
+          - PathPattern: "/ordering-service/*"
             TargetOriginId: ApiGatewayOrigin
             ViewerProtocolPolicy: redirect-to-https
             CachePolicyId: !Ref ApiCachePolicy
@@ -339,7 +339,7 @@ Resources:
             Compress: true
 
           # /basket-service/*
-          - PathPattern: "basket-service/*"
+          - PathPattern: "/basket-service/*"
             TargetOriginId: ApiGatewayOrigin
             ViewerProtocolPolicy: redirect-to-https
             CachePolicyId: !Ref ApiCachePolicy
