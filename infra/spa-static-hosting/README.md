@@ -26,7 +26,7 @@ Infraestrutura para publicar o **Shopping.Web.SPA** (Angular) como site estátic
 |---|---|
 | **OAC (Origin Access Control)** | Bucket S3 privado — acesso somente via CloudFront |
 | **Múltiplas origens** | API Gateway como 2ª origin — URLs relativas do Angular funcionam sem mudanças |
-| **Custom Error Responses** | 403/404 → `/index.html` → 200 — SPA routing funciona |
+| **Função CloudFront para SPA routing** | `SpaRoutingFunction` reescreve rotas de cliente para `/index.html` — SPA routing funciona sem depender de Custom Error Responses |
 | **Cache inteligente** | Assets hasheados com cache de 1 ano; `index.html` com cache de 60s |
 | **Security Headers** | HSTS, X-Content-Type-Options, X-Frame-Options, etc. |
 | **HTTP/2 + HTTP/3** | Performance otimizada |
