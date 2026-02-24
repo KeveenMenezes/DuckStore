@@ -21,10 +21,15 @@ on:
         required: false
         default: false
         type: boolean
+      build_run_id:
+        description: "Workflow run ID to download build artifacts from (required when skip_build is true)"
+        required: false
+        type: string
 
 permissions:
   id-token: write
   contents: read
+  actions: read
 
 env:
   AWS_REGION: us-east-1
@@ -128,6 +133,31 @@ jobs:
         if: ${{ github.event.inputs.skip_build != 'true' }}
         working-directory: src/WebApps/Shopping.Web.SPA
         run: npx ng build --configuration production
+
+      - name: Upload build artifact
+        if: ${{ github.event.inputs.skip_build != 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: spa-dist-${{ github.event.inputs.environment || 'production' }}
+          path: src/WebApps/Shopping.Web.SPA/dist/shopping/browser
+          retention-days: 7
+
+      - name: Validate skip_build inputs
+        if: ${{ github.event.inputs.skip_build == 'true' }}
+        run: |
+          if [ -z "${{ github.event.inputs.build_run_id }}" ]; then
+            echo "::error::build_run_id is required when skip_build is true. Provide the workflow run ID of a previous build to redeploy."
+            exit 1
+          fi
+
+      - name: Download build artifact
+        if: ${{ github.event.inputs.skip_build == 'true' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: spa-dist-${{ github.event.inputs.environment || 'production' }}
+          path: src/WebApps/Shopping.Web.SPA/dist/shopping/browser
+          run-id: ${{ github.event.inputs.build_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Sync hashed assets to S3 (long cache)
         run: |
