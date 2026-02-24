@@ -164,7 +164,10 @@ inject_redirect_url() {
   local env_file="${SPA_DIR}/src/environments/environment.production.ts"
 
   if [[ -f "$env_file" ]]; then
-    sed -i '' "s|redirectUrl: '.*'|redirectUrl: '${SPA_URL}'|" "$env_file"
+    local tmp_file
+    tmp_file="$(mktemp)"
+    sed "s|redirectUrl: '.*'|redirectUrl: '${SPA_URL}'|" "$env_file" > "$tmp_file"
+    mv "$tmp_file" "$env_file"
     ok "environment.production.ts updated."
   else
     warn "environment.production.ts not found — skipping."
@@ -263,7 +266,13 @@ main() {
     inject_redirect_url
     build_app
     # Restore environment file to avoid dirty git state
-    git -C "${SPA_DIR}" checkout -- src/environments/environment.production.ts 2>/dev/null || true
+    if git -C "${SPA_DIR}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+      if ! git -C "${SPA_DIR}" checkout -- src/environments/environment.production.ts >/dev/null 2>&1; then
+        warn "Failed to restore src/environments/environment.production.ts in ${SPA_DIR}; please check your working tree."
+      fi
+    else
+      warn "Skipping environment file restore: ${SPA_DIR} is not a git repository."
+    fi
     sync_to_s3
     invalidate_cache
   fi

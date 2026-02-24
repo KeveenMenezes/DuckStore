@@ -134,6 +134,11 @@ jobs:
         working-directory: src/WebApps/Shopping.Web.SPA
         run: npx ng build --configuration production
 
+      - name: Restore environment file
+        if: ${{ github.event.inputs.skip_build != 'true' }}
+        working-directory: src/WebApps/Shopping.Web.SPA
+        run: git checkout -- src/environments/environment.production.ts 2>/dev/null || true
+
       - name: Upload build artifact
         if: ${{ github.event.inputs.skip_build != 'true' }}
         uses: actions/upload-artifact@v4
